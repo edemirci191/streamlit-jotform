@@ -69,23 +69,6 @@ if not os.path.exists('tr_from_url'):
       if block:
         f.write(block)
         
-del r_de
-del r_en
-del r_es
-del r_fr
-del r_it
-del r_nl
-del r_pt
-del r_tr
-del url_de
-del url_en
-del url_es
-del url_fr
-del url_it
-del url_nl
-del url_pt
-del url_tr
-
 def apply_url(id):
   full_url = "https://www.jotform.com/answers/" + str(id)
   return full_url
@@ -130,15 +113,6 @@ index_nl.load(index_filename_nl, prefault=True)
 index_de.load(index_filename_de, prefault=True)
 index_tr.load(index_filename_tr, prefault=True)
 index_pt.load(index_filename_pt, prefault=True)
-
-del index_filename_en
-del index_filename_es
-del index_filename_fr
-del index_filename_it
-del index_filename_nl
-del index_filename_pt
-del index_filename_tr 
-del index_filename_de 
 
 model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
 embed = hub.load(model_url)
