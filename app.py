@@ -271,11 +271,7 @@ def main():
       #show_df.set_index('Thread URL', inplace = True)
       st.subheader('Recommendations')
       st.table(show_df)
-      
-
-if __name__ == '__main__':
-  main()
-  
+   
 del embedding_dimension     
 del base_url
 #del show_df
@@ -325,4 +321,7 @@ del index_nl
 del index_de
 del index_tr
 del index_pt
-del converted_list # added on 20 august for streamlit
+del converted_list # added on 20 august for streamlit     
+
+if __name__ == '__main__':
+  main()
