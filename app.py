@@ -153,6 +153,7 @@ def extract_embeddings(query,embed_fn,rpm):
 
 base_url = "https://www.jotform.com/answers/"
 
+@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
 def main():
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
