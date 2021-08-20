@@ -122,14 +122,14 @@ index_tr.load(index_filename_tr, prefault=True)
 index_pt.load(index_filename_pt, prefault=True)
 
 #Added 20 august start
-!rm {index_filename_en}
-!rm {index_filename_es}
-!rm {index_filename_fr}
-!rm {index_filename_it}
-!rm {index_filename_nl}
-!rm {index_filename_de}
-!rm {index_filename_tr}
-!rm {index_filename_pt}
+shutil.rmtree(index_filename_en)
+shutil.rmtree(index_filename_es)
+shutil.rmtree(index_filename_fr)
+shutil.rmtree(index_filename_it)
+shutil.rmtree(index_filename_nl)
+shutil.rmtree(index_filename_de)
+shutil.rmtree(index_filename_tr)
+shutil.rmtree(index_filename_pt)
 #Added 20 august finish
 
 #st.write("success line 114")
