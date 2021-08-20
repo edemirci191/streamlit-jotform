@@ -105,14 +105,15 @@ index_de = annoy.AnnoyIndex(embedding_dimension)
 index_tr = annoy.AnnoyIndex(embedding_dimension)
 index_pt = annoy.AnnoyIndex(embedding_dimension)
 
-index_en.load(index_filename_en, prefault=True)
-index_es.load(index_filename_es, prefault=True)
-index_fr.load(index_filename_fr, prefault=True)
-index_it.load(index_filename_it, prefault=True)
-index_nl.load(index_filename_nl, prefault=True)
-index_de.load(index_filename_de, prefault=True)
-index_tr.load(index_filename_tr, prefault=True)
-index_pt.load(index_filename_pt, prefault=True)
+#Let us try to load indexes only if they are selected maybe that saves some ram
+#index_en.load(index_filename_en, prefault=True)
+#index_es.load(index_filename_es, prefault=True)
+#index_fr.load(index_filename_fr, prefault=True)
+#index_it.load(index_filename_it, prefault=True)
+#index_nl.load(index_filename_nl, prefault=True)
+#index_de.load(index_filename_de, prefault=True)
+#index_tr.load(index_filename_tr, prefault=True)
+#index_pt.load(index_filename_pt, prefault=True)
 
 model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
 embed = hub.load(model_url)
@@ -146,6 +147,7 @@ def main():
     lg = detect(user_input)
     varforid = None
     if lg == 'en':
+      index_en.load(index_filename_en, prefault=True)
       l_index = index_en
       map = mapping_en
       embedfn = embed
@@ -154,6 +156,7 @@ def main():
       varforid = question_en
 
     if lg == 'es':
+      index_es.load(index_filename_es, prefault=True)
       l_index = index_es
       map = mapping_es
       embedfn = embed
@@ -162,6 +165,7 @@ def main():
       varforid = question_es
 
     if lg == 'tr':
+      index_tr.load(index_filename_tr, prefault=True)
       l_index = index_tr
       map = mapping_tr
       embedfn = embed
@@ -170,6 +174,7 @@ def main():
       varforid = question_tr
 
     if lg == 'fr':
+      index_fr.load(index_filename_fr, prefault=True)
       l_index = index_fr
       map = mapping_fr
       embedfn = embed
@@ -178,6 +183,7 @@ def main():
       varforid=question_fr
 
     if lg == 'de':
+      index_de.load(index_filename_de, prefault=True)
       l_index = index_de
       map = mapping_de
       embedfn = embed
@@ -186,6 +192,7 @@ def main():
       varforid = question_de
 
     if lg == 'nl':
+      index_nl.load(index_filename_nl, prefault=True)
       l_index = index_nl
       map = mapping_nl
       embedfn = embed
@@ -194,6 +201,7 @@ def main():
       varforid= question_nl
 
     if lg == 'pt':
+      index_pt.load(index_filename_pt, prefault=True)
       l_index = index_pt
       map = mapping_pt
       embedfn = embed
@@ -202,6 +210,7 @@ def main():
       varforid = question_pt
 
     if lg == 'it':
+      index_it.load(index_filename_it, prefault=True)
       l_index = index_it
       map = mapping_it
       embedfn = embed
@@ -210,6 +219,7 @@ def main():
       varforid = question_it
 
     if not_found == 1:
+      index_en.load(index_filename_en, prefault=True)
       l_index = index_en
       map = mapping_en
       embedfn = embed
@@ -222,6 +232,7 @@ def main():
     lst=[]
     show_df = pd.DataFrame()
     if lg != 'en':
+      index_en.load(index_filename_en, prefault=True)
       query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
       items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
       extended_items = items_en + items
