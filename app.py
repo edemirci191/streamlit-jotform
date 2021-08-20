@@ -68,18 +68,18 @@ if not os.path.exists('tr_from_url'):
     for block in r_tr.iter_content(chunk_size = 8192):
       if block:
         f.write(block)
-
+        
+@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
 def apply_url(id):
   full_url = "https://www.jotform.com/answers/" + str(id)
   return full_url
-
 
 mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/mapping.pkl"))
 question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions.pkl"))
 random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix.pkl"))
 converted_list = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
 
-
+@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
 def find_similar_items(lang_index,mapping_name,embedding, num_matches=5):
   '''Finds similar items to a given embedding in the ANN index'''
   ids = lang_index.get_nns_by_vector(
@@ -135,20 +135,17 @@ if os.path.exists(index_filename_pt):
   os.remove(index_filename_pt)
 #Added 20 august finish
 
-#st.write("success line 114")
-
 model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
 embed = hub.load(model_url)
 # August 20 deleted embed_en, embed_tr which are same model loaded again
 
-
+@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
 def extract_embeddings(query,embed_fn,rpm): 
   '''Generates the embedding for the query'''
   query_embedding =  embed_fn([query])[0].numpy()
   if rpm is not None:
     query_embedding = query_embedding.dot(rpm)
   return query_embedding
-
 
 base_url = "https://www.jotform.com/answers/"
 
@@ -256,7 +253,7 @@ def main():
     lst=[]
     show_df = pd.DataFrame()
     if lg != 'en':
-      query_embedding_en = extract_embeddings(user_input,embed_en,random_projection_matrix_en)
+      query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
       items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
       extended_items = items_en + items
       #st.write(extended_items)
