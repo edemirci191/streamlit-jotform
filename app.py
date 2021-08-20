@@ -164,7 +164,6 @@ def main():
   # in else part embedfn=embed_.. changed to embedfn = embed
   if any(word in user_input for word in converted_list):
     print('Your sentence contains profanity words, please try again')
-    del converted_list # added on 20 august for streamlit
   else:
     l_index = None
     map = None
@@ -326,3 +325,4 @@ del index_nl
 del index_de
 del index_tr
 del index_pt
+del converted_list # added on 20 august for streamlit
