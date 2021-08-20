@@ -11,6 +11,7 @@ import pickle
 from urllib.request import urlopen
 from tensorflow_text import SentencepieceTokenizer
 from urllib.error import HTTPError
+import shutil
 
 #st.write("Hello")
 
