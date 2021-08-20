@@ -69,7 +69,23 @@ if not os.path.exists('tr_from_url'):
       if block:
         f.write(block)
         
-@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
+del r_de
+del r_en
+del r_es
+del r_fr
+del r_it
+del r_nl
+del r_pt
+del r_tr
+del url_de
+del url_en
+del url_es
+del url_fr
+del url_it
+del url_nl
+del url_pt
+del url_tr
+
 def apply_url(id):
   full_url = "https://www.jotform.com/answers/" + str(id)
   return full_url
@@ -78,7 +94,6 @@ mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_
 question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions.pkl"))
 random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix.pkl"))
 converted_list = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
-
 
 def find_similar_items(lang_index,mapping_name,embedding, num_matches=5):
   '''Finds similar items to a given embedding in the ANN index'''
@@ -116,29 +131,18 @@ index_de.load(index_filename_de, prefault=True)
 index_tr.load(index_filename_tr, prefault=True)
 index_pt.load(index_filename_pt, prefault=True)
 
-#Added 20 august start
-if os.path.exists(index_filename_en):
-  os.remove(index_filename_en)
-if os.path.exists(index_filename_es):
-  os.remove(index_filename_es)
-if os.path.exists(index_filename_fr):
-  os.remove(index_filename_fr)
-if os.path.exists(index_filename_it):
-  os.remove(index_filename_it)
-if os.path.exists(index_filename_nl):
-  os.remove(index_filename_nl)
-if os.path.exists(index_filename_de):
-  os.remove(index_filename_de)
-if os.path.exists(index_filename_tr):
-  os.remove(index_filename_tr)
-if os.path.exists(index_filename_pt):
-  os.remove(index_filename_pt)
-#Added 20 august finish
+del index_filename_en
+del index_filename_es
+del index_filename_fr
+del index_filename_it
+del index_filename_nl
+del index_filename_pt
+del index_filename_tr 
+del index_filename_de 
 
 model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
 embed = hub.load(model_url)
 # August 20 deleted embed_en, embed_tr which are same model loaded again
-
 
 def extract_embeddings(query,embed_fn,rpm): 
   '''Generates the embedding for the query'''
@@ -148,15 +152,6 @@ def extract_embeddings(query,embed_fn,rpm):
   return query_embedding
 
 base_url = "https://www.jotform.com/answers/"
-
-del r_de
-del r_en
-del r_es
-del r_fr
-del r_it
-del r_nl
-del r_pt
-del r_tr
 
 def main():
   st.title("Jotform Support Forum Question Recommender")
@@ -169,6 +164,7 @@ def main():
   # in else part embedfn=embed_.. changed to embedfn = embed
   if any(word in user_input for word in converted_list):
     print('Your sentence contains profanity words, please try again')
+    del converted_list # added on 20 august for streamlit
   else:
     l_index = None
     map = None
@@ -256,23 +252,18 @@ def main():
       query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
       items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
       extended_items = items_en + items
-      #st.write(extended_items)
       for j in ids_en:
-        #lst.append(str(question_en.iloc[j]['id']))
         lst.append("https://www.jotform.com/answers/"+str(question_en.iloc[j]['id']))
       for i in ids:
-        #lst.append(str(varforid.iloc[i]['id']))
         lst.append("https://www.jotform.com/answers/"+str(varforid.iloc[i]['id']))
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = extended_items
       show_df['Thread URL'] = lst
-      #show_df.set_index('Thread URL', inplace = True)
       st.subheader('Recommendations')
       st.table(show_df)
       #st.write("[https://www.jotform.com/answers/]" + str(lst[1])) hyperlink with constant id
     else:
       for i in ids:
-        #lst.append(str(varforid.iloc[i]['id']))
         lst.append("https://www.jotform.com/answers/" + str(varforid.iloc[i]['id']))
 
       show_df.to_html(escape=False)
@@ -281,7 +272,56 @@ def main():
       #show_df.set_index('Thread URL', inplace = True)
       st.subheader('Recommendations')
       st.table(show_df)
+      
+del embedding_dimension     
 del base_url
+del show_df
+del lst
+del items
+del ids
+del query_embedding
+del l_index
+del rpm
+del lg
+del varforid
+del model_url
+del embed
+
+del mapping_en
+del mapping_de
+del mapping_tr 
+del mapping_pt 
+del mapping_it 
+del mapping_es 
+del mapping_nl 
+del mapping_fr
+
+del question_en
+del question_de
+del question_tr
+del question_pt
+del question_it
+del question_es
+del question_nl
+del question_fr
+
+del random_projection_matrix_en
+del random_projection_matrix_de
+del random_projection_matrix_tr
+del random_projection_matrix_pt
+del random_projection_matrix_it
+del random_projection_matrix_es
+del random_projection_matrix_nl
+del random_projection_matrix_fr
+
+del index_en
+del index_es
+del index_fr
+del index_it
+del index_nl
+del index_de
+del index_tr
+del index_pt
 
 if __name__ == '__main__':
   main()
