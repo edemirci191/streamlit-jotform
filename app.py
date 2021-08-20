@@ -30,7 +30,8 @@ embedding_dimension = 64
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_model():
        model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
-       embed = hub.load(model_url)
+       embeda = hub.load(model_url)
+       return embeda
 
 def extract_embeddings(query,embed_fn,rpm): 
   '''Generates the embedding for the query'''
@@ -42,7 +43,7 @@ def extract_embeddings(query,embed_fn,rpm):
 base_url = "https://www.jotform.com/answers/"
 
 def main():
-  load_model()
+  embed = load_model()
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
   st.write("Purpose of this application is to recommend the user similar questions that has been asked before by other users. When the user asks a new question other already answered similar questions are going to be recommended to the user in English and also in his/her native language.")
