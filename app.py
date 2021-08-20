@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import streamlit as st
 import annoy
 import tensorflow_hub as hub
@@ -10,10 +9,6 @@ import os
 import pickle
 from urllib.request import urlopen
 from tensorflow_text import SentencepieceTokenizer
-from urllib.error import HTTPError
-import shutil
-
-#st.write("Hello")
 
 url_de = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_de"
 url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en"
@@ -32,7 +27,6 @@ r_it = requests.get(url_it, stream = True)
 r_nl = requests.get(url_nl, stream = True)
 r_pt = requests.get(url_pt, stream = True)
 r_tr = requests.get(url_tr, stream = True)
-#st.write("succes line 29")
 
 if not os.path.exists('de_from_url'):
   with open("de_from_url","wb") as f:
@@ -75,7 +69,7 @@ if not os.path.exists('tr_from_url'):
       if block:
         f.write(block)
 
-
+@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
 def apply_url(id):
   full_url = "https://www.jotform.com/answers/" + str(id)
   return full_url
@@ -86,6 +80,7 @@ question_en, question_de, question_tr,question_pt, question_it, question_es, que
 random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix.pkl"))
 converted_list = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
 
+@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
 def find_similar_items(lang_index,mapping_name,embedding, num_matches=5):
   '''Finds similar items to a given embedding in the ANN index'''
   ids = lang_index.get_nns_by_vector(
@@ -123,45 +118,50 @@ index_tr.load(index_filename_tr, prefault=True)
 index_pt.load(index_filename_pt, prefault=True)
 
 #Added 20 august start
-os.remove(index_filename_en)
-os.remove(index_filename_es)
-os.remove(index_filename_fr)
-os.remove(index_filename_it)
-os.remove(index_filename_nl)
-os.remove(index_filename_de)
-os.remove(index_filename_tr)
-os.remove(index_filename_pt)
+if os.path.exists(index_filename_en):
+  os.remove(index_filename_en)
+if os.path.exists(index_filename_es):
+  os.remove(index_filename_es)
+if os.path.exists(index_filename_fr):
+  os.remove(index_filename_fr)
+if os.path.exists(index_filename_it):
+  os.remove(index_filename_it)
+if os.path.exists(index_filename_nl):
+  os.remove(index_filename_nl)
+if os.path.exists(index_filename_de):
+  os.remove(index_filename_de)
+if os.path.exists(index_filename_tr):
+  os.remove(index_filename_tr)
+if os.path.exists(index_filename_pt):
+  os.remove(index_filename_pt)
 #Added 20 august finish
 
 #st.write("success line 114")
 
 model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
+embed = hub.load(model_url)
+# August 20 deleted embed_en, embed_tr which are same model loaded again
 
-embed_en = hub.load(model_url)
-#Since it is all same at the beginning copy by value
-embed_es = embed_en
-embed_tr = embed_en
-embed_fr = embed_en
-embed_it = embed_en
-embed_de = embed_en
-embed_nl = embed_en
-embed_pt = embed_en
 
-def extract_embeddings(query,embed_fn,rpm):
+@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
+def extract_embeddings(query,embed_fn,rpm): 
   '''Generates the embedding for the query'''
   query_embedding =  embed_fn([query])[0].numpy()
   if rpm is not None:
     query_embedding = query_embedding.dot(rpm)
   return query_embedding
-#ml code end
+
 
 base_url = "https://www.jotform.com/answers/"
 
-#frontend code
-
-#PAGE_CONFIG = {"page_title":"Forum Question Recommender", "page_icon": ":smiley:","layout": "centered"}
-
-#st.set_page_config(**PAGE_CONFIG)
+del r_de
+del r_en
+del r_es
+del r_fr
+del r_it
+del r_nl
+del r_pt
+del r_tr
 
 def main():
   st.title("Jotform Support Forum Question Recommender")
@@ -171,6 +171,7 @@ def main():
   st.button("Search Question")
   st.image('https://storage.googleapis.com/jotform-recommender.appspot.com/podo_7.png',width=264)
   not_found = 1
+  # in else part embedfn=embed_.. changed to embedfn = embed
   if any(word in user_input for word in converted_list):
     print('Your sentence contains profanity words, please try again')
   else:
@@ -183,7 +184,7 @@ def main():
     if lg == 'en':
       l_index = index_en
       map = mapping_en
-      embedfn = embed_en
+      embedfn = embed
       rpm = random_projection_matrix_en
       not_found = 0
       varforid = question_en
@@ -191,7 +192,7 @@ def main():
     if lg == 'es':
       l_index = index_es
       map = mapping_es
-      embedfn = embed_es
+      embedfn = embed
       rpm = random_projection_matrix_es
       not_found = 0
       varforid = question_es
@@ -199,7 +200,7 @@ def main():
     if lg == 'tr':
       l_index = index_tr
       map = mapping_tr
-      embedfn = embed_tr
+      embedfn = embed
       rpm = random_projection_matrix_tr
       not_found = 0
       varforid = question_tr
@@ -207,7 +208,7 @@ def main():
     if lg == 'fr':
       l_index = index_fr
       map = mapping_fr
-      embedfn = embed_fr
+      embedfn = embed
       rpm = random_projection_matrix_fr
       not_found = 0
       varforid=question_fr
@@ -215,7 +216,7 @@ def main():
     if lg == 'de':
       l_index = index_de
       map = mapping_de
-      embedfn = embed_de
+      embedfn = embed
       rpm = random_projection_matrix_de
       not_found = 0
       varforid = question_de
@@ -223,7 +224,7 @@ def main():
     if lg == 'nl':
       l_index = index_nl
       map = mapping_nl
-      embedfn = embed_nl
+      embedfn = embed
       rpm = random_projection_matrix_nl
       not_found = 0
       varforid= question_nl
@@ -231,7 +232,7 @@ def main():
     if lg == 'pt':
       l_index = index_pt
       map = mapping_pt
-      embedfn = embed_pt
+      embedfn = embed
       rpm = random_projection_matrix_pt
       not_found = 0
       varforid = question_pt
@@ -239,7 +240,7 @@ def main():
     if lg == 'it':
       l_index = index_it
       map = mapping_it
-      embedfn = embed_it
+      embedfn = embed
       rpm = random_projection_matrix_it
       not_found = 0
       varforid = question_it
@@ -247,7 +248,7 @@ def main():
     if not_found == 1:
       l_index = index_en
       map = mapping_en
-      embedfn = embed_en
+      embedfn = embed
       rpm = random_projection_matrix_en
       lg = 'en'
       varforid = question_en
@@ -285,7 +286,7 @@ def main():
       #show_df.set_index('Thread URL', inplace = True)
       st.subheader('Recommendations')
       st.table(show_df)
-
+del base_url
 
 if __name__ == '__main__':
   main()
