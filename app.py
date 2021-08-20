@@ -9,66 +9,7 @@ import os
 import pickle
 from urllib.request import urlopen
 from tensorflow_text import SentencepieceTokenizer
-
-url_de = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_de"
-url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en"
-url_es = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_es"
-url_fr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_fr"
-url_it = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_it"
-url_nl = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_nl"
-url_pt = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_pt"
-url_tr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_tr"
-
-r_de = requests.get(url_de, stream = True)
-r_en = requests.get(url_en, stream = True)
-r_es = requests.get(url_es, stream = True)
-r_fr = requests.get(url_fr, stream = True)
-r_it = requests.get(url_it, stream = True)
-r_nl = requests.get(url_nl, stream = True)
-r_pt = requests.get(url_pt, stream = True)
-r_tr = requests.get(url_tr, stream = True)
-
-if not os.path.exists('de_from_url'):
-  with open("de_from_url","wb") as f:
-    for block in r_de.iter_content(chunk_size = 8192):
-      if block:
-        f.write(block)
-if not os.path.exists('en_from_url'):
-  with open("en_from_url","wb") as f:
-    for block in r_en.iter_content(chunk_size = 8192):
-      if block:
-        f.write(block)
-if not os.path.exists('es_from_url'):
-  with open("es_from_url","wb") as f:
-    for block in r_es.iter_content(chunk_size = 8192):
-      if block:
-        f.write(block)
-if not os.path.exists('fr_from_url'):
-  with open("fr_from_url","wb") as f:
-    for block in r_fr.iter_content(chunk_size = 8192):
-      if block:
-        f.write(block)
-if not os.path.exists('it_from_url'):
-  with open("it_from_url","wb") as f:
-    for block in r_it.iter_content(chunk_size = 8192):
-      if block:
-        f.write(block)
-if not os.path.exists('nl_from_url'):
-  with open("nl_from_url","wb") as f:
-    for block in r_nl.iter_content(chunk_size = 8192):
-      if block:
-        f.write(block)
-if not os.path.exists('pt_from_url'):
-  with open("pt_from_url","wb") as f:
-    for block in r_pt.iter_content(chunk_size = 8192):
-      if block:
-        f.write(block)
-if not os.path.exists('tr_from_url'):
-  with open("tr_from_url","wb") as f:
-    for block in r_tr.iter_content(chunk_size = 8192):
-      if block:
-        f.write(block)
-        
+       
 def apply_url(id):
   full_url = "https://www.jotform.com/answers/" + str(id)
   return full_url
@@ -86,34 +27,6 @@ def find_similar_items(lang_index,mapping_name,embedding, num_matches=5):
   return items,ids
 
 embedding_dimension = 64
-
-index_filename_en = "en_from_url"
-index_filename_es = "es_from_url"
-index_filename_fr = "fr_from_url"
-index_filename_it = "it_from_url"
-index_filename_nl = "nl_from_url"
-index_filename_pt = "pt_from_url"
-index_filename_tr = "tr_from_url"
-index_filename_de = "de_from_url"
-
-index_en = annoy.AnnoyIndex(embedding_dimension)
-index_es = annoy.AnnoyIndex(embedding_dimension)
-index_fr = annoy.AnnoyIndex(embedding_dimension)
-index_it = annoy.AnnoyIndex(embedding_dimension)
-index_nl = annoy.AnnoyIndex(embedding_dimension)
-index_de = annoy.AnnoyIndex(embedding_dimension)
-index_tr = annoy.AnnoyIndex(embedding_dimension)
-index_pt = annoy.AnnoyIndex(embedding_dimension)
-
-#Let us try to load indexes only if they are selected maybe that saves some ram
-#index_en.load(index_filename_en, prefault=True)
-#index_es.load(index_filename_es, prefault=True)
-#index_fr.load(index_filename_fr, prefault=True)
-#index_it.load(index_filename_it, prefault=True)
-#index_nl.load(index_filename_nl, prefault=True)
-#index_de.load(index_filename_de, prefault=True)
-#index_tr.load(index_filename_tr, prefault=True)
-#index_pt.load(index_filename_pt, prefault=True)
 
 model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
 embed = hub.load(model_url)
@@ -146,7 +59,17 @@ def main():
     rpm = None
     lg = detect(user_input)
     varforid = None
+    
     if lg == 'en':
+      if not os.path.exists('en_from_url'):
+        url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en"
+        r_en = requests.get(url_en, stream = True)
+        with open("en_from_url","wb") as f:
+          for block in r_en.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_en = "en_from_url"
+      index_en = annoy.AnnoyIndex(embedding_dimension)
       index_en.load(index_filename_en, prefault=True)
       l_index = index_en
       map = mapping_en
@@ -154,8 +77,17 @@ def main():
       rpm = random_projection_matrix_en
       not_found = 0
       varforid = question_en
-
+      
     if lg == 'es':
+      if not os.path.exists('es_from_url'):
+        url_es = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_es"
+        r_es = requests.get(url_es, stream = True)
+        with open("es_from_url","wb") as f:
+          for block in r_es.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_es = "es_from_url"
+      index_es = annoy.AnnoyIndex(embedding_dimension)
       index_es.load(index_filename_es, prefault=True)
       l_index = index_es
       map = mapping_es
@@ -163,8 +95,17 @@ def main():
       rpm = random_projection_matrix_es
       not_found = 0
       varforid = question_es
-
+     
     if lg == 'tr':
+      if not os.path.exists('tr_from_url'):
+        url_tr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_tr"
+        r_tr = requests.get(url_tr, stream = True)
+        with open("tr_from_url","wb") as f:
+          for block in r_tr.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_tr = "tr_from_url"
+      index_tr = annoy.AnnoyIndex(embedding_dimension)
       index_tr.load(index_filename_tr, prefault=True)
       l_index = index_tr
       map = mapping_tr
@@ -172,8 +113,17 @@ def main():
       rpm = random_projection_matrix_tr
       not_found = 0
       varforid = question_tr
-
+      
     if lg == 'fr':
+      if not os.path.exists('fr_from_url'):
+        url_fr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_fr"
+        r_fr = requests.get(url_fr, stream = True)
+        with open("fr_from_url","wb") as f:
+          for block in r_fr.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_fr = "fr_from_url"
+      index_fr = annoy.AnnoyIndex(embedding_dimension)
       index_fr.load(index_filename_fr, prefault=True)
       l_index = index_fr
       map = mapping_fr
@@ -181,8 +131,17 @@ def main():
       rpm = random_projection_matrix_fr
       not_found = 0
       varforid=question_fr
-
+      
     if lg == 'de':
+      if not os.path.exists('de_from_url'):
+        url_de = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_de"
+        r_de = requests.get(url_de, stream = True)
+        with open("de_from_url","wb") as f:
+          for block in r_de.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_de = "de_from_url"
+      index_de = annoy.AnnoyIndex(embedding_dimension)
       index_de.load(index_filename_de, prefault=True)
       l_index = index_de
       map = mapping_de
@@ -190,8 +149,17 @@ def main():
       rpm = random_projection_matrix_de
       not_found = 0
       varforid = question_de
-
+      
     if lg == 'nl':
+      if not os.path.exists('nl_from_url'):
+        url_nl = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_nl"
+        r_nl = requests.get(url_nl, stream = True)
+        with open("nl_from_url","wb") as f:
+          for block in r_nl.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_nl = "nl_from_url"
+      index_nl = annoy.AnnoyIndex(embedding_dimension)
       index_nl.load(index_filename_nl, prefault=True)
       l_index = index_nl
       map = mapping_nl
@@ -201,6 +169,15 @@ def main():
       varforid= question_nl
 
     if lg == 'pt':
+      if not os.path.exists('pt_from_url'):
+        url_pt = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_pt"
+        r_pt = requests.get(url_pt, stream = True)
+        with open("pt_from_url","wb") as f:
+          for block in r_pt.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_pt = "pt_from_url"
+      index_pt = annoy.AnnoyIndex(embedding_dimension)
       index_pt.load(index_filename_pt, prefault=True)
       l_index = index_pt
       map = mapping_pt
@@ -210,6 +187,15 @@ def main():
       varforid = question_pt
 
     if lg == 'it':
+      if not os.path.exists('it_from_url'):
+        url_it = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_it"
+        r_it = requests.get(url_it, stream = True)
+        with open("it_from_url","wb") as f:
+          for block in r_it.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_it = "it_from_url"
+      index_it = annoy.AnnoyIndex(embedding_dimension)
       index_it.load(index_filename_it, prefault=True)
       l_index = index_it
       map = mapping_it
@@ -219,6 +205,15 @@ def main():
       varforid = question_it
 
     if not_found == 1:
+      if not os.path.exists('en_from_url'):
+        url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en"
+        r_en = requests.get(url_en, stream = True)
+        with open("en_from_url","wb") as f:
+          for block in r_en.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
+      index_filename_en = "en_from_url"
+      index_en = annoy.AnnoyIndex(embedding_dimension)
       index_en.load(index_filename_en, prefault=True)
       l_index = index_en
       map = mapping_en
@@ -232,7 +227,6 @@ def main():
     lst=[]
     show_df = pd.DataFrame()
     if lg != 'en':
-      index_en.load(index_filename_en, prefault=True)
       query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
       items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
       extended_items = items_en + items
