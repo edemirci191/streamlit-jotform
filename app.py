@@ -79,7 +79,7 @@ question_en, question_de, question_tr,question_pt, question_it, question_es, que
 random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix.pkl"))
 converted_list = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
 
-@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
+
 def find_similar_items(lang_index,mapping_name,embedding, num_matches=5):
   '''Finds similar items to a given embedding in the ANN index'''
   ids = lang_index.get_nns_by_vector(
@@ -139,7 +139,7 @@ model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
 embed = hub.load(model_url)
 # August 20 deleted embed_en, embed_tr which are same model loaded again
 
-@st.cache(allow_output_mutation=True, max_entries=10, ttl=3600)
+
 def extract_embeddings(query,embed_fn,rpm): 
   '''Generates the embedding for the query'''
   query_embedding =  embed_fn([query])[0].numpy()
