@@ -121,6 +121,17 @@ index_de.load(index_filename_de, prefault=True)
 index_tr.load(index_filename_tr, prefault=True)
 index_pt.load(index_filename_pt, prefault=True)
 
+#Added 20 august start
+!rm {index_filename_en}
+!rm {index_filename_es}
+!rm {index_filename_fr}
+!rm {index_filename_it}
+!rm {index_filename_nl}
+!rm {index_filename_de}
+!rm {index_filename_tr}
+!rm {index_filename_pt}
+#Added 20 august finish
+
 #st.write("success line 114")
 
 model_url = 'https://tfhub.dev/google/universal-sentence-encoder-multilingual/3'
