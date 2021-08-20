@@ -278,7 +278,7 @@ if __name__ == '__main__':
   
 del embedding_dimension     
 del base_url
-del show_df
+#del show_df
 del lst
 del items
 del ids
