@@ -273,6 +273,10 @@ def main():
       st.subheader('Recommendations')
       st.table(show_df)
       
+
+if __name__ == '__main__':
+  main()
+  
 del embedding_dimension     
 del base_url
 del show_df
@@ -322,6 +326,3 @@ del index_nl
 del index_de
 del index_tr
 del index_pt
-
-if __name__ == '__main__':
-  main()
