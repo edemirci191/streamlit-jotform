@@ -242,9 +242,8 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
-      #show_df.set_index('Thread URL', inplace = True)
       st.subheader('Recommendations')
       st.table(show_df)
-del embed
+
 if __name__ == '__main__':
   main()
