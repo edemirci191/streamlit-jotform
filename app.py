@@ -19,9 +19,20 @@ def load_map():
        mapobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/mapping.pkl"))
        return mapobj
 
-question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions.pkl"))
-random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix.pkl"))
-converted_list = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+def load_question():
+       queobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions.pkl"))
+       return queobj
+
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+def load_matrixes():
+       matrixobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix.pkl"))
+       return matrixobj
+
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+def load_wfilter():
+       wfilterobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
+       return wfilterobj
 
 def find_similar_items(lang_index,mapping_name,embedding, num_matches=5):
   '''Finds similar items to a given embedding in the ANN index'''
@@ -47,8 +58,12 @@ def extract_embeddings(query,embed_fn,rpm):
 base_url = "https://www.jotform.com/answers/"
 
 def main():
+  converted_list = load_wfilter()
+  random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = load_matrixes()
+  question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr =  load_question()
   mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
   embed = load_model()
+
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
   st.write("Purpose of this application is to recommend the user similar questions that has been asked before by other users. When the user asks a new question other already answered similar questions are going to be recommended to the user in English and also in his/her native language.")
