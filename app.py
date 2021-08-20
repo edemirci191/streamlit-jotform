@@ -14,7 +14,11 @@ def apply_url(id):
   full_url = "https://www.jotform.com/answers/" + str(id)
   return full_url
 
-mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/mapping.pkl"))
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+def load_map():
+       mapobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/mapping.pkl"))
+       return mapobj
+
 question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions.pkl"))
 random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix.pkl"))
 converted_list = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
@@ -43,6 +47,7 @@ def extract_embeddings(query,embed_fn,rpm):
 base_url = "https://www.jotform.com/answers/"
 
 def main():
+  mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
   embed = load_model()
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
