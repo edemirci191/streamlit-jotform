@@ -127,7 +127,6 @@ def extract_embeddings(query,embed_fn,rpm):
 
 base_url = "https://www.jotform.com/answers/"
 
-@st.cache
 def main():
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
@@ -246,6 +245,6 @@ def main():
       #show_df.set_index('Thread URL', inplace = True)
       st.subheader('Recommendations')
       st.table(show_df)
-   
+del embed
 if __name__ == '__main__':
   main()
