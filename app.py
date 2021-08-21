@@ -68,7 +68,7 @@ def main():
   st.subheader("Overview")
   st.write("Purpose of this application is to recommend the user similar questions that has been asked before by other users. When the user asks a new question other already answered similar questions are going to be recommended to the user in English and also in his/her native language.")
   q_input = st.text_input("Question","How can I create a succesful survey form ?")    
-  user_input = st.text_area("Details","", height = 275)
+  user_input = st.text_area("","I want to learn how to create a succesful survey form", height = 275)
   user_input = + q_input + user_input 
   st.button("Search Question")
   st.image('https://storage.googleapis.com/jotform-recommender.appspot.com/podo_7.png',width=264)
