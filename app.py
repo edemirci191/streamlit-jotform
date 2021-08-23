@@ -70,6 +70,7 @@ def main():
   uinput = st.text_input("Question","How can I create a succesful survey form ?")    
   user_input = st.text_area("Description","I want to learn how to create succesful survey form")
   st.button("Search Question")
+  allinput = uinput + user_input
   st.image('https://storage.googleapis.com/jotform-recommender.appspot.com/podo_7.png',width=264)
   not_found = 1
   # in else part embedfn=embed_.. changed to embedfn = embed
