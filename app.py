@@ -159,7 +159,7 @@ def main():
       
     if lg == 'de':
       if not os.path.exists('de_from_url'):
-        url_de = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_de"
+        url_de = "https://ln4.sync.com/dl/894538bb0/zyz3kmgz-5ugdnvc4-kaa4k4g3-22t8qzih"
         r_de = requests.get(url_de, stream = True)
         with open("de_from_url","wb") as f:
           for block in r_de.iter_content(chunk_size = 8192):
