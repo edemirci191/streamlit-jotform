@@ -98,9 +98,9 @@ def topic_recommend(user_input):
        bow_vector = dictionary.doc2bow(preprocess(user_input))
        for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
               if(score > 0.2):
-                     for i in range(2):
-                            if(lda_model.show_topic(index, 2)[i][0] not in topic_result):
-                                   topic_result.append(lda_model.show_topic(index, 2)[i][0])
+                     for i in range(4):
+                            if(lda_model.show_topic(index, 4)[i][0] not in topic_result):
+                                   topic_result.append(lda_model.show_topic(index, 4)[i][0])
        return topic_result
 
 
