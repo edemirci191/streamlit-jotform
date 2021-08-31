@@ -4,6 +4,9 @@ import streamlit as st
 import annoy
 import tensorflow_hub as hub
 import gensim
+from gensim.parsing.preprocessing import STOPWORDS
+from nltk.stem import WordNetLemmatizer
+from nltk.stem.porter import *
 from langdetect import detect
 import requests
 import os
