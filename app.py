@@ -77,6 +77,7 @@ def preprocess(text):
     return result
 
 def topic_recommend(user_input):
+       dictionary = load_dictionary()
        bow_vector = dictionary.doc2bow(preprocess(user_input))
        for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
               result = lda_model.show_topic(index, 1)
@@ -93,7 +94,6 @@ def main():
   question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr =  load_question()
   mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
   embed = load_model()
-  dictionary = load_dictionary()
   lda_model = load_lda_model()
 
   st.title("Jotform Support Forum Question Recommender")
