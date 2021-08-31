@@ -81,13 +81,12 @@ def extract_embeddings(query,embed_fn,rpm):
 
 def lemmatize_stemming(text):
     nltk_download()
-    english_stemmer = load_stemmer()
-    return english_stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+    return WordNetLemmatizer().lemmatize(text, pos='v')
 
 def preprocess(text):
     result = []
     for token in gensim.utils.simple_preprocess(text):
-        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 4:
+        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
             result.append(lemmatize_stemming(token))
     return result
 
