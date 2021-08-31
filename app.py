@@ -72,14 +72,14 @@ def extract_embeddings(query,embed_fn,rpm):
     query_embedding = query_embedding.dot(rpm)
   return query_embedding
 
-def lemmatize_stemming(text):
+def lemmatize_stemming(text,english_stemmer):
     return english_stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
 
 def preprocess(text):
     result = []
     for token in gensim.utils.simple_preprocess(text):
         if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 4:
-            result.append(lemmatize_stemming(token))
+            result.append(lemmatize_stemming(token,english_stemmer))
     return result
 
 def topic_recommend(user_input,dictionary):
