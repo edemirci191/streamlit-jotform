@@ -92,13 +92,16 @@ def preprocess(text):
     return result
 
 def topic_recommend(user_input):
+       topic_result=[]
        lda_model = load_lda_model()
        dictionary = load_dictionary()
        bow_vector = dictionary.doc2bow(preprocess(user_input))
        for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
-              result = lda_model.show_topic(index, 1)
-              break
-       return result[0][0]
+              if(score > 0.2):
+                     for i in range(3):
+                            if(lda_model.show_topic(index, 3)[i][0] not in topic_result):
+                                   topic_result.append(lda_model.show_topic(index, 3)[i][0])
+       return topic_result
 
 
 
