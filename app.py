@@ -14,7 +14,11 @@ import pickle
 import nltk
 from urllib.request import urlopen
 from tensorflow_text import SentencepieceTokenizer
-       
+
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+def nltk_download():
+       nltk.download('wordnet')
+
 def apply_url(id):
   full_url = "https://www.jotform.com/answers/" + str(id)
   return full_url
@@ -76,6 +80,7 @@ def extract_embeddings(query,embed_fn,rpm):
   return query_embedding
 
 def lemmatize_stemming(text):
+    nltk_download()
     english_stemmer = load_stemmer()
     return english_stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
 
