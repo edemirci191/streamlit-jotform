@@ -80,7 +80,7 @@ def preprocess(text):
     result = []
     for token in gensim.utils.simple_preprocess(text):
         if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 4:
-            result.append(lemmatize_stemming(token,english_stemmer))
+            result.append(lemmatize_stemming(token))
     return result
 
 def topic_recommend(user_input):
