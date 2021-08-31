@@ -304,7 +304,7 @@ def main():
       show_df['Similar Questions'] = extended_items
       show_df['Thread URL'] = lst
       st.subheader("Most Related Topic is")
-      st.write(topic_recommend(extended_items[0],dictionary)) 
+      st.write(topic_recommend("How to create a form",dictionary)) 
       st.subheader('Recommendations')
       st.table(show_df)
       #st.write("[https://www.jotform.com/answers/]" + str(lst[1])) hyperlink with constant id
