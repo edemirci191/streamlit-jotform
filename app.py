@@ -314,6 +314,8 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
+      dummyvar = topic_recommend("How to create a form",dictionary)
+      st.subheader("Most Related Topic is")
       st.subheader('Recommendations')
       st.table(show_df)
 
