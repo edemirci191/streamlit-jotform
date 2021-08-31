@@ -34,6 +34,16 @@ def load_wfilter():
        wfilterobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
        return wfilterobj
 
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+def load_lda_model():
+       lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model.pkl"))
+       return lda_model
+       
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+def load_dictionary():
+       dictionary = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/dictionary.pkl"))
+       return dictionary
+       
 def find_similar_items(lang_index,mapping_name,embedding, num_matches=5):
   '''Finds similar items to a given embedding in the ANN index'''
   ids = lang_index.get_nns_by_vector(
@@ -55,6 +65,13 @@ def extract_embeddings(query,embed_fn,rpm):
     query_embedding = query_embedding.dot(rpm)
   return query_embedding
 
+def topic_recommend(user_input):
+       bow_vector = dictionary.doc2bow(preprocess(user_input))
+       for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
+              result = lda_model.show_topic(index, 1)
+              break
+       return result[0][0]
+
 base_url = "https://www.jotform.com/answers/"
 
 def main():
@@ -63,6 +80,8 @@ def main():
   question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr =  load_question()
   mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
   embed = load_model()
+  dictionary = load_dictionary()
+  lda_model = load_lda_model()
 
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
@@ -265,6 +284,8 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = extended_items
       show_df['Thread URL'] = lst
+      st.subheader("Most Related Topic is")
+      st.write(topic_recommend(extended_items[0])) 
       st.subheader('Recommendations')
       st.table(show_df)
       #st.write("[https://www.jotform.com/answers/]" + str(lst[1])) hyperlink with constant id
@@ -275,6 +296,8 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
+      st.subheader("Most Related Topic is")
+      st.write(topic_recommend(items[0])) 
       st.subheader('Recommendations')
       st.table(show_df)
 
