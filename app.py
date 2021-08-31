@@ -66,12 +66,24 @@ def extract_embeddings(query,embed_fn,rpm):
     query_embedding = query_embedding.dot(rpm)
   return query_embedding
 
+def lemmatize_stemming(text):
+    return english_stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+
+def preprocess(text):
+    result = []
+    for token in gensim.utils.simple_preprocess(text):
+        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 4:
+            result.append(lemmatize_stemming(token))
+    return result
+
 def topic_recommend(user_input):
        bow_vector = dictionary.doc2bow(preprocess(user_input))
        for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
               result = lda_model.show_topic(index, 1)
               break
        return result[0][0]
+
+
 
 base_url = "https://www.jotform.com/answers/"
 
@@ -285,6 +297,8 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = extended_items
       show_df['Thread URL'] = lst
+      st.subhead("Most Related Topic is")
+      st.write(topic_recommend(extended_items[0])) 
       st.subheader('Recommendations')
       st.table(show_df)
       #st.write("[https://www.jotform.com/answers/]" + str(lst[1])) hyperlink with constant id
