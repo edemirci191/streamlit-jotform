@@ -44,7 +44,12 @@ def load_lda_model():
 def load_dictionary():
        dictionary = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/dictionary.pkl"))
        return dictionary
-       
+
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+def load_stemmer():
+       english_stemmer = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/english_stemmer.pkl"))
+       return english_stemmer
+
 def find_similar_items(lang_index,mapping_name,embedding, num_matches=5):
   '''Finds similar items to a given embedding in the ANN index'''
   ids = lang_index.get_nns_by_vector(
@@ -76,8 +81,7 @@ def preprocess(text):
             result.append(lemmatize_stemming(token))
     return result
 
-def topic_recommend(user_input):
-       dictionary = load_dictionary()
+def topic_recommend(user_input,dictionary):
        bow_vector = dictionary.doc2bow(preprocess(user_input))
        for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
               result = lda_model.show_topic(index, 1)
@@ -95,7 +99,8 @@ def main():
   mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
   embed = load_model()
   lda_model = load_lda_model()
-
+  dictionary = load_dictionary()
+  english_stemmer = load_english_stemmer()     
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
   st.write("Purpose of this application is to recommend the user similar questions that has been asked before by other users. When the user asks a new question other already answered similar questions are going to be recommended to the user in English and also in his/her native language.")
@@ -298,7 +303,7 @@ def main():
       show_df['Similar Questions'] = extended_items
       show_df['Thread URL'] = lst
       st.subheader("Most Related Topic is")
-      st.write(topic_recommend(extended_items[0])) 
+      st.write(topic_recommend(extended_items[0],dictionary)) 
       st.subheader('Recommendations')
       st.table(show_df)
       #st.write("[https://www.jotform.com/answers/]" + str(lst[1])) hyperlink with constant id
