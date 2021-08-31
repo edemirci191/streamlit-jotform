@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 import annoy
 import tensorflow_hub as hub
+import gensim
 from langdetect import detect
 import requests
 import os
