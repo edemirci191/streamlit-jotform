@@ -324,11 +324,11 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
-      st.subheader('Recommendations')
-      st.table(show_df)
       st.subheader("Most Related Topic is")
       topic = topic_recommend(items[0])
       st.write(topic)
+      st.subheader('Recommendations')
+      st.table(show_df)
 
 if __name__ == '__main__':
   main()
