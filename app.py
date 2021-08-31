@@ -324,6 +324,7 @@ def main():
       show_df['Thread URL'] = lst
       dummyvar = topic_recommend("How to create a form")
       st.subheader("Most Related Topic is")
+      st.write(dummyvar)
       st.subheader('Recommendations')
       st.table(show_df)
 
