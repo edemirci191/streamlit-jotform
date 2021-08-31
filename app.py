@@ -72,7 +72,8 @@ def extract_embeddings(query,embed_fn,rpm):
     query_embedding = query_embedding.dot(rpm)
   return query_embedding
 
-def lemmatize_stemming(text,english_stemmer):
+def lemmatize_stemming(text):
+    english_stemmer = load_stemmer()
     return english_stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
 
 def preprocess(text):
@@ -82,7 +83,9 @@ def preprocess(text):
             result.append(lemmatize_stemming(token,english_stemmer))
     return result
 
-def topic_recommend(user_input,dictionary):
+def topic_recommend(user_input):
+       lda_model = load_lda_model()
+       dictionary = load_dictionary()
        bow_vector = dictionary.doc2bow(preprocess(user_input))
        for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
               result = lda_model.show_topic(index, 1)
@@ -98,10 +101,7 @@ def main():
   random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = load_matrixes()
   question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr =  load_question()
   mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
-  embed = load_model()
-  lda_model = load_lda_model()
-  dictionary = load_dictionary()
-  english_stemmer = load_stemmer()     
+  embed = load_model()   
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
   st.write("Purpose of this application is to recommend the user similar questions that has been asked before by other users. When the user asks a new question other already answered similar questions are going to be recommended to the user in English and also in his/her native language.")
@@ -314,7 +314,7 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
-      dummyvar = topic_recommend("How to create a form",dictionary)
+      dummyvar = topic_recommend("How to create a form")
       st.subheader("Most Related Topic is")
       st.subheader('Recommendations')
       st.table(show_df)
