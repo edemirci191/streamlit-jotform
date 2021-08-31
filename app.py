@@ -8,6 +8,7 @@ from langdetect import detect
 import requests
 import os
 import pickle
+import nltk
 from urllib.request import urlopen
 from tensorflow_text import SentencepieceTokenizer
        
