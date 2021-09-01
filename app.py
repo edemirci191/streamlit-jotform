@@ -45,7 +45,7 @@ def load_wfilter():
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_lda_model():
-       lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model.pkl"))
+       lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model_tfidf.pkl"))
        return lda_model
        
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
@@ -96,10 +96,10 @@ def topic_recommend(user_input):
        dictionary = load_dictionary()
        bow_vector = dictionary.doc2bow(preprocess(user_input))
        for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
-              if(score > 0.25):
-                     for i in range(10):
-                            if(lda_model.show_topic(index, 10)[i][0] not in topic_result):
-                                   topic_result.append(lda_model.show_topic(index, 10)[i][0])
+              if(score > 0.2):
+                     for i in range(4):
+                            if(lda_model.show_topic(index, 4)[i][0] not in topic_result):
+                                   topic_result.append(lda_model.show_topic(index, 4)[i][0])
               break
        return topic_result
 
