@@ -313,7 +313,7 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = extended_items
       show_df['Thread URL'] = lst
-      st.subheader("Most Related 5 Topics Are")
+      st.subheader("Most Related Topics Are")
       topic = topic_recommend(extended_items[0])
       st.write(topic)
       st.subheader('Recommendations')
@@ -326,7 +326,7 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
-      st.subheader("Most Related 5 Topics Are")
+      st.subheader("Most Related Topics Are")
       st.write(user_input)
       topic = topic_recommend(user_input)
       st.write(topic)
