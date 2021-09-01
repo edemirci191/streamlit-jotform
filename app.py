@@ -97,9 +97,9 @@ def topic_recommend(user_input):
        bow_vector = dictionary.doc2bow(preprocess(user_input))
        for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
               if(score > 0.2):
-                     for i in range(10):
-                            if(lda_model.show_topic(index, 10)[i][0] not in topic_result):
-                                   topic_result.append(lda_model.show_topic(index, 10)[i][0])
+                     for i in range(5):
+                            if(lda_model.show_topic(index, 5)[i][0] not in topic_result):
+                                   topic_result.append(lda_model.show_topic(index, 5)[i][0])
               break
        return topic_result
 
@@ -314,7 +314,7 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = extended_items
       show_df['Thread URL'] = lst
-      st.subheader("Most Related Topics Are")
+      st.subheader("Most Related 5 Topics Are")
       topic = topic_recommend(extended_items[0])
       st.write(topic)
       st.subheader('Recommendations')
@@ -327,7 +327,7 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
-      st.subheader("Most Related Topics Are")
+      st.subheader("Most Related 5 Topics Are")
       topic = topic_recommend(items[0])
       st.write(topic)
       st.subheader('Recommendations')
