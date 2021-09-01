@@ -328,7 +328,7 @@ def main():
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
       st.subheader("Most Related 5 Topics Are")
-      topic = topic_recommend(items[0])
+      topic = topic_recommend(user_input)
       st.write(topic)
       st.subheader('Recommendations')
       st.table(show_df)
