@@ -100,6 +100,7 @@ def topic_recommend(user_input):
                      for i in range(4):
                             if(lda_model.show_topic(index, 4)[i][0] not in topic_result):
                                    topic_result.append(lda_model.show_topic(index, 4)[i][0])
+              break
        return topic_result
 
 
