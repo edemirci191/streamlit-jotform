@@ -45,7 +45,7 @@ def load_wfilter():
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_lda_model():
-       lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model_tfidf.pkl"))
+       lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model_tfidf_500.pkl"))
        return lda_model
        
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
