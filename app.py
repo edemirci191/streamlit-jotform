@@ -79,10 +79,12 @@ def extract_embeddings(query,embed_fn,rpm):
     query_embedding = query_embedding.dot(rpm)
   return query_embedding
 
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def lemmatize_stemming(text):
     nltk_download()
     return WordNetLemmatizer().lemmatize(text, pos='v')
 
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def preprocess(text):
     result = []
     for token in gensim.utils.simple_preprocess(text):
@@ -90,6 +92,7 @@ def preprocess(text):
             result.append(lemmatize_stemming(token))
     return result
 
+@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def topic_recommend(user_input):
        topic_result=[]
        lda_model = load_lda_model()
