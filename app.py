@@ -15,9 +15,7 @@ import nltk
 from urllib.request import urlopen
 from tensorflow_text import SentencepieceTokenizer
 
-@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
-def nltk_download():
-       nltk.download('wordnet')
+
 
 def apply_url(id):
   full_url = "https://www.jotform.com/answers/" + str(id)
@@ -42,11 +40,6 @@ def load_matrixes():
 def load_wfilter():
        wfilterobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/badwords.pkl"))
        return wfilterobj
-
-@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
-def load_lda_model():
-       lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model_tfidf_200.pkl"))
-       return lda_model
        
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_dictionary():
@@ -78,33 +71,6 @@ def extract_embeddings(query,embed_fn,rpm):
   if rpm is not None:
     query_embedding = query_embedding.dot(rpm)
   return query_embedding
-
-@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
-def lemmatize_stemming(text):
-    nltk_download()
-    return WordNetLemmatizer().lemmatize(text, pos='v')
-
-@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
-def preprocess(text):
-    result = []
-    for token in gensim.utils.simple_preprocess(text):
-        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
-            result.append(lemmatize_stemming(token))
-    return result
-
-@st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
-def topic_recommend(user_input):
-       topic_result=[]
-       lda_model = load_lda_model()
-       dictionary = load_dictionary()
-       bow_vector = dictionary.doc2bow(preprocess(user_input))
-       for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
-              for i in range(5):
-                     if(lda_model.show_topic(index, 5)[i][0] not in topic_result):
-                            topic_result.append(lda_model.show_topic(index, 5)[i][0])
-                     break
-       return topic_result
-
 
 
 base_url = "https://www.jotform.com/answers/"
@@ -317,8 +283,8 @@ def main():
       show_df['Similar Questions'] = extended_items
       show_df['Thread URL'] = lst
       st.subheader("Most Related Topics for")
-      topic = topic_recommend(extended_items[0])
-      st.write(topic)
+      #topic = topic_recommend(extended_items[0])
+      #st.write(topic)
       st.subheader('Recommendations')
       st.table(show_df)
       #st.write("[https://www.jotform.com/answers/]" + str(lst[1])) hyperlink with constant id
@@ -329,9 +295,9 @@ def main():
       show_df.to_html(escape=False)
       show_df['Similar Questions'] = items
       show_df['Thread URL'] = lst
-      st.subheader("Most Related Topics for")
-      st.write(user_input)
-      topic = topic_recommend(user_input)
+      #st.subheader("Most Related Topics for")
+      #st.write(user_input)
+      #topic = topic_recommend(user_input)
       st.write(topic)
       st.subheader('Recommendations')
       st.table(show_df)
