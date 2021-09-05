@@ -305,8 +305,9 @@ def main():
         #st.write(topic)
         st.subheader('Recommendations')
         st.table(show_df)
-      elif choice == "Relevant Topics":
-        st.write("Relevant Topics")
+        
+  elif choice == "Relevant Topics":
+    st.write("Relevant Topics")
        
 if __name__ == '__main__':
   main()
