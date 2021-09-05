@@ -44,10 +44,11 @@ def topic_recommend(user_input):
   dictionary = load_dictionary()
   bow_vector = dictionary.doc2bow(preprocess(user_input))
   for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
-    for i in range(1):
-      if(lda_model.show_topic(index, 1)[i][0] not in topic_result):
-        topic_result.append(lda_model.show_topic(index, 1)[i][0])
-      break
+    if score > 0.15:
+      for i in range(1):
+        if(lda_model.show_topic(index, 1)[i][0] not in topic_result):
+          topic_result.append(lda_model.show_topic(index, 1)[i][0])
+        break
   return topic_result
 
 def apply_url(id):
