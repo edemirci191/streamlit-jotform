@@ -352,8 +352,7 @@ def main():
     embedfn=embed
     query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
     items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
-    extended_items = items_en + items
-    topic = topic_recommend(extended_items[0])
+    topic = topic_recommend(items_en[0])
     st.write(topic)
 if __name__ == '__main__':
   main()
