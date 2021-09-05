@@ -341,6 +341,12 @@ def main():
         
   elif choice == "Relevant Topics":
     st.write("Relevant Topics")
-       
+    uinput = st.text_input("Question","How can I create a succesful survey form ?")    
+    user_input = st.text_area("Description","I want to learn how to create succesful survey form")
+    st.button("See Relevant Topics")
+    allinput = uinput +" "+ user_input
+    user_input = allinput
+    topic = topic_recommend(user_input)
+    st.write(topic)
 if __name__ == '__main__':
   main()
