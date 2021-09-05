@@ -47,7 +47,7 @@ def topic_recommend(user_input):
     for i in range(5):
       if(lda_model.show_topic(index, 5)[i][0] not in topic_result):
         topic_result.append(lda_model.show_topic(index, 5)[i][0])
-      break
+    break
   return topic_result
 
 def apply_url(id):
