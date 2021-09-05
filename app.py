@@ -307,6 +307,10 @@ def main():
         st.table(show_df)
         
   elif choice == "Relevant Topics":
+    @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+    def load_lda_model():
+      lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model_tfidf_200.pkl"))
+      return lda_model
     st.write("Relevant Topics")
        
 if __name__ == '__main__':
