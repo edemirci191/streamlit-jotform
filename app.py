@@ -80,7 +80,9 @@ def main():
   random_projection_matrix_en, random_projection_matrix_de, random_projection_matrix_tr, random_projection_matrix_pt, random_projection_matrix_it,random_projection_matrix_es,random_projection_matrix_nl,random_projection_matrix_fr = load_matrixes()
   question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr =  load_question()
   mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
-  embed = load_model()   
+  embed = load_model()
+  menu = ["Similar Questions","Relevant Topics"]
+  choice = st.sidebar.selectbox("Menu",menu)
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
   st.write("Purpose of this application is to recommend the user similar questions that has been asked before by other users. When the user asks a new question other already answered similar questions are going to be recommended to the user in English and also in his/her native language.")
