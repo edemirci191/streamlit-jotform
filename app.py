@@ -81,7 +81,7 @@ def main():
   question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr =  load_question()
   mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
   embed = load_model()
-  st.sidebar.image("https://storage.googleapis.com/jotform-recommender.appspot.com/jotform-logo-transparent-800x400.png")
+  st.sidebar.image("https://storage.googleapis.com/jotform-recommender.appspot.com/jotform-logo-transparent-800x400.png",width=300)
   menu = ["Similar Questions","Relevant Topics"]
   choice = st.sidebar.selectbox("Menu",menu)
   st.title("Jotform Support Forum Question Recommender")
