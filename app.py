@@ -311,6 +311,34 @@ def main():
     def load_lda_model():
       lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model_tfidf_200.pkl"))
       return lda_model
+    @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+    def nltk_download():
+      nltk.download('wordnet')
+    @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+    def lemmatize_stemming(text):
+      nltk_download()
+      return WordNetLemmatizer().lemmatize(text, pos='v')
+    @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+    def preprocess(text):
+      result = []
+      for token in gensim.utils.simple_preprocess(text):
+        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
+          result.append(lemmatize_stemming(token))
+      return result
+    @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
+    def topic_recommend(user_input):
+      topic_result=[]
+      lda_model = load_lda_model()
+      dictionary = load_dictionary()
+      bow_vector = dictionary.doc2bow(preprocess(user_input))
+      for index,score in sorted(lda_model[bow_vector], key=lambda tup: -1*tup[1]):
+             for i in range(5):
+                    if(lda_model.show_topic(index, 5)[i][0] not in topic_result):
+                           topic_result.append(lda_model.show_topic(index, 5)[i][0])
+                    break
+      return topic_result
+    
+    
     st.write("Relevant Topics")
        
 if __name__ == '__main__':
