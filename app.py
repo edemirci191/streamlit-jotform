@@ -81,9 +81,9 @@ def main():
   question_en, question_de, question_tr,question_pt, question_it, question_es, question_nl, question_fr =  load_question()
   mapping_en, mapping_de, mapping_tr, mapping_pt, mapping_it, mapping_es, mapping_nl, mapping_fr = load_map()
   embed = load_model()
+  st.sidebar.image("https://storage.googleapis.com/jotform-recommender.appspot.com/jotform-logo-transparent-800x400.png")
   menu = ["Similar Questions","Relevant Topics"]
   choice = st.sidebar.selectbox("Menu",menu)
-  st.sidebar.image("https://storage.googleapis.com/jotform-recommender.appspot.com/podo_7.png")
   st.title("Jotform Support Forum Question Recommender")
   st.subheader("Overview")
   st.write("Purpose of this application is to recommend the user similar questions that has been asked before by other users. When the user asks a new question other already answered similar questions are going to be recommended to the user in English and also in his/her native language.")
