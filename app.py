@@ -346,7 +346,10 @@ def main():
     st.button("See Relevant Topics")
     allinput = uinput +" "+ user_input
     user_input = allinput
-    topic = topic_recommend(user_input)
+    query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
+    items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
+    extended_items = items_en + items
+    topic = topic_recommend(extended_items[0])
     st.write(topic)
 if __name__ == '__main__':
   main()
