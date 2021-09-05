@@ -346,6 +346,7 @@ def main():
     st.button("See Relevant Topics")
     allinput = uinput +" "+ user_input
     user_input = allinput
+    embedfn=embed
     query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
     items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
     extended_items = items_en + items
