@@ -346,13 +346,18 @@ def main():
     st.button("See Relevant Topics")
     allinput = uinput +" "+ user_input
     user_input = allinput
-    index_filename_en = "en_from_url"
-    index_en = annoy.AnnoyIndex(embedding_dimension)
-    index_en.load(index_filename_en, prefault=True)
-    embedfn=embed
-    query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
-    items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
-    topic = topic_recommend(items_en[0])
-    st.write(topic)
+    lg = detect(user_input)
+    if lg == 'en':
+      topic = topic_recommend(user_input)
+      st.write(topic)
+    else:
+      index_filename_en = "en_from_url"
+      index_en = annoy.AnnoyIndex(embedding_dimension)
+      index_en.load(index_filename_en, prefault=True)
+      embedfn=embed
+      query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
+      items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
+      topic = topic_recommend(items_en[0])
+      st.write(topic)
 if __name__ == '__main__':
   main()
