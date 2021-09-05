@@ -33,8 +33,8 @@ def lemmatize_stemming(text):
 def preprocess(text):
   result = []
   for token in gensim.utils.simple_preprocess(text):
-  if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
-    result.append(lemmatize_stemming(token))
+    if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
+      result.append(lemmatize_stemming(token))
   return result
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
