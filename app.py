@@ -17,7 +17,7 @@ from tensorflow_text import SentencepieceTokenizer
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_lda_model():
-  lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model_tfidf_200.pkl"))
+  lda_model = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/lda_model_tfidf_200_20pass.pkl"))
   return lda_model
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
