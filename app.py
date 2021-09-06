@@ -47,8 +47,9 @@ def topic_recommend(user_input):
     if score > 0.1:
       for i in range(1):
         if(lda_model.show_topic(index, 1)[i][0] not in topic_result):
-          topic_result.append(lda_model.show_topic(index, 1)[i][0])
-        break
+          if(lda_model.show_topic(index, 1)[i][0] != "thank"):
+            topic_result.append(lda_model.show_topic(index, 1)[i][0])
+          break
   return topic_result
 
 def apply_url(id):
