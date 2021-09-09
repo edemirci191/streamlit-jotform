@@ -303,7 +303,7 @@ def main():
         lg = 'en'
         varforid = question_en
 
-      query_embedding = extract_embeddings(user_input,embedfn,rpm)
+      query_embedding = extract_embeddings("paket yükseltme",embedfn,rpm)
       items,ids = find_similar_items(l_index,map,query_embedding, 5)
       lst=[]
       show_df = pd.DataFrame()
@@ -311,7 +311,7 @@ def main():
         index_filename_en = "en_from_url"
         index_en = annoy.AnnoyIndex(embedding_dimension)
         index_en.load(index_filename_en, prefault=True)
-        query_embedding_en = extract_embeddings("cancel subscription",embedfn,random_projection_matrix_en)
+        query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
         items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
         st.write(lg)
         st.write(user_input)
