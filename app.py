@@ -313,6 +313,8 @@ def main():
         index_en.load(index_filename_en, prefault=True)
         query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
         items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
+        st.write(lg)
+        st.write(user_input)
         extended_items = items_en + items
         for j in ids_en:
           lst.append("https://www.jotform.com/answers/"+str(question_en.iloc[j]['id']))
