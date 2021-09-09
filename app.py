@@ -335,6 +335,7 @@ def main():
 
         show_df.to_html(escape=False)
         st.write("here")
+        st.write(lg)
         show_df['Similar Questions'] = items
         show_df['Thread URL'] = lst
         #st.subheader("Most Related Topics for")
