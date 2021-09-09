@@ -308,14 +308,12 @@ def main():
       lst=[]
       show_df = pd.DataFrame()
       if lg != 'en':
-        #added later ----------------------------------
-        if not os.path.exists('en_from_url'):
-          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en"
-          r_en = requests.get(url_en, stream = True)
-          with open("en_from_url","wb") as f:
-            for block in r_en.iter_content(chunk_size = 8192):
-              if block:
-                f.write(block)
+        url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en"
+        r_en = requests.get(url_en, stream = True)
+        with open("en_from_url","wb") as f:
+          for block in r_en.iter_content(chunk_size = 8192):
+            if block:
+              f.write(block)
         #added later------------------------------------
         index_filename_en = "en_from_url"
         index_en = annoy.AnnoyIndex(embedding_dimension)
