@@ -346,7 +346,7 @@ def main():
         st.subheader('Recommendations')
         st.table(show_df)
         
-elif choice == "Relevant Topics":
+  if choice == "Relevant Topics":
     st.write("Relevant Topics")
     uinput = st.text_input("Question","How can I create a succesful survey form ?")    
     user_input = st.text_area("Description","I want to learn how to create succesful survey form")
