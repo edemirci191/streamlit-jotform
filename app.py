@@ -307,7 +307,7 @@ def main():
       items,ids = find_similar_items(l_index,map,query_embedding, 5)
       lst=[]
       show_df = pd.DataFrame()
-      if lg != 'en':
+      elif lg != 'en':
         index_filename_en = "en_from_url"
         index_en = annoy.AnnoyIndex(embedding_dimension)
         index_en.load(index_filename_en, prefault=True)
@@ -334,9 +334,9 @@ def main():
           lst.append("https://www.jotform.com/answers/" + str(varforid.iloc[i]['id']))
 
         show_df.to_html(escape=False)
-        st.write("here")
-        st.write(lg)
-        st.write(detect(user_input))
+        #st.write("here")
+        #st.write(lg)
+        #st.write(detect(user_input))
         show_df['Similar Questions'] = items
         show_df['Thread URL'] = lst
         #st.subheader("Most Related Topics for")
