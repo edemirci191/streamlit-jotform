@@ -358,13 +358,13 @@ def main():
       topic = topic_recommend(user_input)
       st.write(topic)
     else:
-      index_filename_en = "en_from_url"
-      index_en = annoy.AnnoyIndex(embedding_dimension)
-      index_en.load(index_filename_en, prefault=True)
+      index_filename_en2 = "en_from_url"
+      index_en2 = annoy.AnnoyIndex(embedding_dimension)
+      index_en2.load(index_filename_en2, prefault=True)
       embedfn=embed
-      query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
-      items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
-      topic = topic_recommend(items_en[0])
+      query_embedding_en2 = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
+      items_en2,ids_en2 = find_similar_items(index_en,mapping_en,query_embedding_en2, 5)
+      topic = topic_recommend(items_en2[0])
       st.write(topic)
 if __name__ == '__main__':
   main()
