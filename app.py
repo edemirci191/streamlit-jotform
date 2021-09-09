@@ -194,7 +194,8 @@ def main():
         rpm = random_projection_matrix_tr
         not_found = 0
         varforid = question_tr
-
+      if 1==1:
+        st.write("entered anyways")
       if lg == 'fr':
         if not os.path.exists('fr_from_url'):
           url_fr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_fr"
