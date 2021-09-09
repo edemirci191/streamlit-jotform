@@ -311,7 +311,7 @@ def main():
         index_filename_en = "en_from_url"
         index_en = annoy.AnnoyIndex(embedding_dimension)
         index_en.load(index_filename_en, prefault=True)
-        query_embedding_en = extract_embeddings("üyelik iptali",embedfn,random_projection_matrix_en)
+        query_embedding_en = extract_embeddings("cancel subscription",embedfn,random_projection_matrix_en)
         items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
         st.write(lg)
         st.write(user_input)
