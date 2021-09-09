@@ -334,6 +334,7 @@ def main():
           lst.append("https://www.jotform.com/answers/" + str(varforid.iloc[i]['id']))
 
         show_df.to_html(escape=False)
+        st.write("here")
         show_df['Similar Questions'] = items
         show_df['Thread URL'] = lst
         #st.subheader("Most Related Topics for")
