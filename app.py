@@ -307,7 +307,7 @@ def main():
       items,ids = find_similar_items(l_index,map,query_embedding, 5)
       lst=[]
       show_df = pd.DataFrame()
-      if lg != 'en':
+      elif lg != 'en': # this was if
         index_filename_en = "en_from_url"
         index_en = annoy.AnnoyIndex(embedding_dimension)
         index_en.load(index_filename_en, prefault=True)
@@ -329,8 +329,7 @@ def main():
         st.subheader('Recommendations')
         st.table(show_df)
         #st.write("[https://www.jotform.com/answers/]" + str(lst[1])) hyperlink with constant id
-      else:
-        st.write("acaba?")
+      if lg == 'en': # this was else before
         for i in ids:
           lst.append("https://www.jotform.com/answers/" + str(varforid.iloc[i]['id']))
 
