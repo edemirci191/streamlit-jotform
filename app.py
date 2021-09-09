@@ -315,7 +315,7 @@ def main():
         items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
         st.write(lg)
         st.write(user_input)
-        extended_items = items_en + items
+        extended_items = items + items_en
         for j in ids_en:
           lst.append("https://www.jotform.com/answers/"+str(question_en.iloc[j]['id']))
         for i in ids:
