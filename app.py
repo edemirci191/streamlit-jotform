@@ -311,6 +311,14 @@ def main():
         index_filename_en = "en_from_url"
         index_en = annoy.AnnoyIndex(embedding_dimension)
         index_en.load(index_filename_en, prefault=True)
+        #*******************************************added later
+        l_index = index_en
+        map = mapping_en
+        embedfn = embed
+        rpm = random_projection_matrix_en
+        lg = 'en'
+        varforid = question_en
+        #********************************************added later
         query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
         items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
         st.write(lg)
