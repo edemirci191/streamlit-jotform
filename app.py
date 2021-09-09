@@ -194,8 +194,7 @@ def main():
         rpm = random_projection_matrix_tr
         not_found = 0
         varforid = question_tr
-      if 1==1:
-        st.write("entered anyways")
+
       if lg == 'fr':
         if not os.path.exists('fr_from_url'):
           url_fr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_fr"
@@ -308,11 +307,11 @@ def main():
       items,ids = find_similar_items(l_index,map,query_embedding, 5)
       lst=[]
       show_df = pd.DataFrame()
-      if lg != 'en': # this was if
+      if lg != 'en': 
         index_filename_en = "en_from_url"
         index_en = annoy.AnnoyIndex(embedding_dimension)
         index_en.load(index_filename_en, prefault=True)
-        query_embedding_en = extract_embeddings(user_input,embedfn,random_projection_matrix_en)
+        query_embedding_en = extract_embeddings("paket yükseltme",embedfn,random_projection_matrix_en)
         items_en,ids_en = find_similar_items(index_en,mapping_en,query_embedding_en, 5)
         st.write(lg)
         st.write(user_input)
