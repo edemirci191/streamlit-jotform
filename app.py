@@ -303,7 +303,7 @@ def main():
         lg = 'en'
         varforid = question_en
 
-      query_embedding = extract_embeddings("paket yükseltme",embedfn,rpm)
+      query_embedding = extract_embeddings(user_input,embedfn,rpm)
       items,ids = find_similar_items(l_index,map,query_embedding, 5)
       lst=[]
       show_df = pd.DataFrame()
