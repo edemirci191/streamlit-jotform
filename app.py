@@ -315,9 +315,10 @@ def main():
       #query_embedding = extract_embeddings(user_input,embedfn,random_projection_matrix_tr)
       #items,ids = find_similar_items(index_tr,mapping_tr,query_embedding, 5)
       st.write(items)
-      lst=[]
+      #lst=[]
       show_df = pd.DataFrame()
       if lg != 'en': 
+        lst=[]
         index_filename_en = "en_from_url"
         index_en = annoy.AnnoyIndex(embedding_dimension)
         index_en.load(index_filename_en, prefault=True)
@@ -338,6 +339,7 @@ def main():
         st.table(show_df)
         #st.write("[https://www.jotform.com/answers/]" + str(lst[1])) hyperlink with constant id
       else:
+        lst=[]
         for i in ids:
           lst.append("https://www.jotform.com/answers/" + str(varforid.iloc[i]['id']))
 
