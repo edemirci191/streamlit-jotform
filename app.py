@@ -59,17 +59,20 @@ def apply_url(id):
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_map():
-       mapobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/mapping.pkl"))
+       #this was mapping.pkl before
+       mapobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/mapping_clean.pkl"))
        return mapobj
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_question():
-       queobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions.pkl"))
+       #this was question.pkl before
+       queobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions_clean.pkl"))
        return queobj
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_matrixes():
-       matrixobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix.pkl"))
+       #this was matrix.pkl before
+       matrixobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix_clean.pkl"))
        return matrixobj
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
@@ -145,7 +148,8 @@ def main():
 
       if lg == 'en':
         if not os.path.exists('en_from_url'):
-          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en"
+          #this was index_en before
+          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en_clean"
           r_en = requests.get(url_en, stream = True)
           with open("en_from_url","wb") as f:
             for block in r_en.iter_content(chunk_size = 8192):
@@ -289,7 +293,8 @@ def main():
 
       if not_found == 1:
         if not os.path.exists('en_from_url'):
-          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en"
+          #this was index_en before
+          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en_clean"
           r_en = requests.get(url_en, stream = True)
           with open("en_from_url","wb") as f:
             for block in r_en.iter_content(chunk_size = 8192):
