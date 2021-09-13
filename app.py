@@ -312,6 +312,7 @@ def main():
 
       query_embedding = extract_embeddings(user_input,embedfn,rpm)
       items,ids = find_similar_items(l_index,map,query_embedding, 5)
+      st.write(items)
       lst=[]
       show_df = pd.DataFrame()
       if lg != 'en': 
