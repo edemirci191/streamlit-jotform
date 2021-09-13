@@ -310,8 +310,10 @@ def main():
         lg = 'en'
         varforid = question_en
 
-      query_embedding = extract_embeddings(user_input,embedfn,rpm)
-      items,ids = find_similar_items(l_index,map,query_embedding, 5)
+      #query_embedding = extract_embeddings(user_input,embedfn,rpm)
+      #items,ids = find_similar_items(l_index,map,query_embedding, 5)
+      query_embedding = extract_embeddings(user_input,embedfn,random_projection_matrix_tr)
+      items,ids = find_similar_items(index_tr,mapping_tr,query_embedding, 5)
       st.write(items)
       lst=[]
       show_df = pd.DataFrame()
