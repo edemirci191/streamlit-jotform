@@ -60,19 +60,19 @@ def apply_url(id):
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_map():
        #this was mapping.pkl before
-       mapobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/mapping_clean.pkl"))
+       mapobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/mapping_v1.pkl"))
        return mapobj
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_question():
        #this was question.pkl before
-       queobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions_clean.pkl"))
+       queobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/questions_v1.pkl"))
        return queobj
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
 def load_matrixes():
        #this was matrix.pkl before
-       matrixobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix_clean.pkl"))
+       matrixobj = pickle.load(urlopen("https://storage.googleapis.com/jotform-recommender.appspot.com/matrix_v1.pkl"))
        return matrixobj
 
 @st.cache(allow_output_mutation=True, ttl=120000, max_entries=1)
@@ -149,7 +149,7 @@ def main():
       if lg == 'en':
         if not os.path.exists('en_from_url'):
           #this was index_en before
-          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en_clean"
+          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en_v1"
           r_en = requests.get(url_en, stream = True)
           with open("en_from_url","wb") as f:
             for block in r_en.iter_content(chunk_size = 8192):
@@ -167,7 +167,7 @@ def main():
 
       if lg == 'es':
         if not os.path.exists('es_from_url'):
-          url_es = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_es"
+          url_es = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_es_v1"
           r_es = requests.get(url_es, stream = True)
           with open("es_from_url","wb") as f:
             for block in r_es.iter_content(chunk_size = 8192):
@@ -185,7 +185,7 @@ def main():
 
       if lg == 'tr':
         if not os.path.exists('tr_from_url'):
-          url_tr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_tr"
+          url_tr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_tr_v1"
           r_tr = requests.get(url_tr, stream = True)
           with open("tr_from_url","wb") as f:
             for block in r_tr.iter_content(chunk_size = 8192):
@@ -203,7 +203,7 @@ def main():
 
       if lg == 'fr':
         if not os.path.exists('fr_from_url'):
-          url_fr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_fr"
+          url_fr = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_fr_v1"
           r_fr = requests.get(url_fr, stream = True)
           with open("fr_from_url","wb") as f:
             for block in r_fr.iter_content(chunk_size = 8192):
@@ -221,7 +221,7 @@ def main():
 
       if lg == 'de':
         if not os.path.exists('de_from_url'):
-          url_de = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_de"
+          url_de = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_de_v1"
           r_de = requests.get(url_de, stream = True)
           with open("de_from_url","wb") as f:
             for block in r_de.iter_content(chunk_size = 8192):
@@ -239,7 +239,7 @@ def main():
 
       if lg == 'nl':
         if not os.path.exists('nl_from_url'):
-          url_nl = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_nl"
+          url_nl = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_nl_v1"
           r_nl = requests.get(url_nl, stream = True)
           with open("nl_from_url","wb") as f:
             for block in r_nl.iter_content(chunk_size = 8192):
@@ -257,7 +257,7 @@ def main():
 
       if lg == 'pt':
         if not os.path.exists('pt_from_url'):
-          url_pt = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_pt"
+          url_pt = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_pt_v1"
           r_pt = requests.get(url_pt, stream = True)
           with open("pt_from_url","wb") as f:
             for block in r_pt.iter_content(chunk_size = 8192):
@@ -275,7 +275,7 @@ def main():
 
       if lg == 'it':
         if not os.path.exists('it_from_url'):
-          url_it = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_it"
+          url_it = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_it_v1"
           r_it = requests.get(url_it, stream = True)
           with open("it_from_url","wb") as f:
             for block in r_it.iter_content(chunk_size = 8192):
@@ -294,7 +294,7 @@ def main():
       if not_found == 1:
         if not os.path.exists('en_from_url'):
           #this was index_en before
-          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en_clean"
+          url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en_v1"
           r_en = requests.get(url_en, stream = True)
           with open("en_from_url","wb") as f:
             for block in r_en.iter_content(chunk_size = 8192):
