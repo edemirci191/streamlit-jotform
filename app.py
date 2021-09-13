@@ -310,8 +310,10 @@ def main():
         lg = 'en'
         varforid = question_en
 
-      query_embedding = extract_embeddings(user_input,embedfn,rpm)
-      items,ids = find_similar_items(l_index,map,query_embedding, 5)
+      #query_embedding = extract_embeddings(user_input,embedfn,rpm)
+      #items,ids = find_similar_items(l_index,map,query_embedding, 5)
+      query_embedding = extract_embeddings(user_input,embedfn,random_projection_matrix_fr)
+      items,ids = find_similar_items(index_fr,mapping_fr,query_embedding, 5)
       lst=[]
       show_df = pd.DataFrame()
       if lg != 'en': 
