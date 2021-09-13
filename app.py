@@ -291,7 +291,7 @@ def main():
         not_found = 0
         varforid = question_it
 
-      '''if not_found == 1:
+      if not_found == 1:
         if not os.path.exists('en_from_url'):
           #this was index_en before
           url_en = "https://storage.googleapis.com/jotform-recommender.appspot.com/index_en_clean"
@@ -308,7 +308,7 @@ def main():
         embedfn = embed
         rpm = random_projection_matrix_en
         lg = 'en'
-        varforid = question_en'''
+        varforid = question_en
 
       query_embedding = extract_embeddings(user_input,embedfn,rpm)
       items,ids = find_similar_items(l_index,map,query_embedding, 5)
