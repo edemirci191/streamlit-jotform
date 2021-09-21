@@ -353,7 +353,8 @@ def main():
         #topic = topic_recommend(user_input)
         #st.write(topic)
         st.subheader('Recommendations')
-        st.table(show_df)
+        #st.table(show_df)
+        st.write(show_df)
         
   if choice == "Relevant Topics":
     st.write("Relevant Topics")
