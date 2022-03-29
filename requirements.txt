@@ -8,3 +8,4 @@ requests==2.26.0
 tensorflow_text==2.5.0
 gensim==3.6.0
 nltk==3.2.5
+click==8.0.4
